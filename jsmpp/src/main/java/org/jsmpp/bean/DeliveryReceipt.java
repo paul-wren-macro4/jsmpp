@@ -226,9 +226,9 @@ public class DeliveryReceipt implements DeliveryReceiptInterface<DeliveryReceipt
                      .append(" ")
                      .append(DELREC_DLVRD + ":" + intToString(delivered, 3))
                      .append(" ")
-                     .append(DELREC_SUBMIT_DATE + ":" + dateFormat.format(submitDate))
+                     .append(DELREC_SUBMIT_DATE + ":" + formatDeliveryReceiptDate(submitDate))
                      .append(" ")
-                     .append(DELREC_DONE_DATE + ":" + dateFormat.format(doneDate))
+                     .append(DELREC_DONE_DATE + ":" + formatDeliveryReceiptDate(doneDate))
                      .append(" ")
                      .append(DELREC_STAT + ":" + finalStatus)
                      .append(" ")
@@ -237,7 +237,25 @@ public class DeliveryReceipt implements DeliveryReceiptInterface<DeliveryReceipt
                      .append(DELREC_TEXT.toLowerCase() + ":" + text);
         return stringBuilder.toString();
     }
-
+    
+    /**
+     * Format a date from the delivery receipt catching any exceptions and replacing
+     * the string with 'null'
+     * @param date
+     * @return
+     */
+    private String formatDeliveryReceiptDate(Date date) {
+        String s = "";
+        try  {
+          s = dateFormat.format(date);
+        } catch(NullPointerException e) {
+          s = "null";
+        } catch(Exception e) {
+        	s = e.getMessage();
+        }
+        return s;
+    }
+    
     /**
      * Create String representation of integer. Preceding 0 will be add as
      * needed.
